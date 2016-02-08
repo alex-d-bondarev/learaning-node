@@ -10,12 +10,13 @@
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0"
   },
   "description": "learning node js",
-  "main": "app.js",
+  "main": "./site/meadowlark.js",
   "devDependencies": {},
   "repository": {
     "type": "git",
