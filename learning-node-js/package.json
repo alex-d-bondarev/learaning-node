@@ -11,7 +11,10 @@
   },
   "description": "learning node js",
   "main": "./site/meadowlark.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alex-d-bondarev/learaning-node.git"
