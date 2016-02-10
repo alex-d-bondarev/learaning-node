@@ -10,10 +10,11 @@
     "express-handlebars": "^3.0.0"
   },
   "description": "learning node js",
-  "main": "./site/meadowlark.js",
+  "main": "meadowlark.js",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "zombie": "^3.1.1"
   },
   "repository": {
     "type": "git",

@@ -10,7 +10,17 @@ app.use(express.static(__dirname + '/public'));
 
 
 // set handlebars view engine
-var handlebars = require('express-handlebars').create({defaultLayout: 'main', extname: '.handlebars'});
+var handlebars = require('express-handlebars').create({
+      defaultLayout: 'main'
+    , helpers: {
+        section: function(name, options) {
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+});
+
 app.engine('.handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -31,7 +41,6 @@ app.get('/', function(req,res){
 });
 
 
-// About page
 app.get('/about', function(req,res){
     res.render('about', {
         fortune: fortune.getFortune()
@@ -39,6 +48,15 @@ app.get('/about', function(req,res){
     });
 });
 
+
+app.get('/tours/hood-river', function(req,res){
+    res.render('tours/hood-river');
+});
+
+
+app.get('/tours/request-group-rate', function(req,res){
+    res.render('tours/request-group-rate');
+});
 
 // custom 404 page
 app.use(function(req,res){
