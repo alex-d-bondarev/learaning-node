@@ -6,9 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "chai": "~1.9.1",
     "express": "~4.4.2",
-    "express3-handlebars": "~0.5.0",
-    "chai": "~1.9.1"
+    "express3-handlebars": "~0.5.0"
   },
   "description": "learning node js",
   "main": "meadowlark.js",

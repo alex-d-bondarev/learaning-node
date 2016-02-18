@@ -3,8 +3,10 @@
  */
 var express = require('express');
 var fortune = require('./lib/fortune.js');
+var weather = require('./lib/weather.js');
 
 var app = express();
+app.disable('x-powered-by');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -26,12 +28,22 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
+
 // tests
 app.use(function(req,res,next){
     res.locals.showTests = app.get('env') !== 'production' &&
             req.query.test ==='1';
     next();
 });
+
+
+// add weather widget
+app.use(function(req,res,next){
+    if(!res.locals.partials) res.locals.partials = {};
+    res.locals.partials.weatherContext = weather.getWeatherData();
+    next();
+});
+
 
 // routes
 
@@ -61,6 +73,16 @@ app.get('/tours/oregon-coast', function(req,res){
 app.get('/tours/request-group-rate', function(req,res){
     res.render('tours/request-group-rate');
 });
+
+
+app.get('/headers', function(req,res){
+    res.set('Content-Type', 'text/plain');
+    var s = '';
+    for (var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
+    res.send(s);
+});
+
+
 
 // custom 404 page
 app.use(function(req,res){
