@@ -4,6 +4,16 @@
 var express = require('express');
 var fortune = require('./lib/fortune.js');
 var weather = require('./lib/weather.js');
+var handlebars = require('express-handlebars').create({
+    defaultLayout:'main',
+    helpers: {
+        section: function(name,optioins){
+            if(!this._sections) this._sections={};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+});
 
 var app = express();
 app.disable('x-powered-by');
@@ -43,45 +53,45 @@ app.use(function(req,res,next){
     res.locals.partials.weatherContext = weather.getWeatherData();
     next();
 });
-
-
-// routes
-
 // Home page
 app.get('/', function(req,res){
     res.render('home');
 });
-
-
 app.get('/about', function(req,res){
     res.render('about', {
         fortune: fortune.getFortune()
         , pageTestScript: '/qa/tests-about.js'
     });
 });
-
-
 app.get('/tours/hood-river', function(req,res){
     res.render('tours/hood-river');
 });
-
 app.get('/tours/oregon-coast', function(req,res){
     res.render('tours/oregon-coast');
 });
-
-
 app.get('/tours/request-group-rate', function(req,res){
     res.render('tours/request-group-rate');
 });
-
-
 app.get('/headers', function(req,res){
     res.set('Content-Type', 'text/plain');
     var s = '';
     for (var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
     res.send(s);
 });
-
+app.get('/jquery-test', function(req, res){
+    res.render('jquery-test');
+});
+app.get('/nursery-rhyme', function(req, res){
+    res.render('nursery-rhyme');
+});
+app.get('/data/nursery-rhyme', function(req, res){
+    res.json({
+        animal: 'squirrel',
+        bodyPart: 'tail',
+        adjective: 'bushy',
+        noun: 'heck',
+    });
+});
 
 
 // custom 404 page
