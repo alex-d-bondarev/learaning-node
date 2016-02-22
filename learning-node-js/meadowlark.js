@@ -1,6 +1,7 @@
 /**
  * Created by Alex on 2/7/16.
  */
+var credentials = require('./credentials.js');
 var express = require('express');
 var formidable = require('formidable');
 var fortune = require('./lib/fortune.js');
@@ -20,6 +21,12 @@ var handlebars = require('express-handlebars').create({
 var app = express();
 app.disable('x-powered-by');
 
+app.use(require('cookie-parser')(credentials.cookieSecret));
+app.use(require('express-session')({
+    resave: false,
+    saveUninitialized: false,
+    secret: credentials.cookieSecret,
+}));
 app.use(express.static(__dirname + '/public'));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use('/upload', function(req, res, next){
@@ -32,6 +39,13 @@ app.use('/upload', function(req, res, next){
             return '/uploads/' + now;
         },
     })(req, res, next);
+});
+app.use(function(req, res, next){
+    // if there's a flash message, transfer
+    // it to the context, then clear it
+    res.locals.flash = req.session.flash;
+    delete req.session.flash;
+    next();
 });
 
 // set handlebars view engine
